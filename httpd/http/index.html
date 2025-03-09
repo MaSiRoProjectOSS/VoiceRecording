@@ -1,7 +1,30 @@
+<!DOCTYPE html>
 <html>
 
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="shortcut icon" href="favicon.ico">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="js/JS_Conversation.js?<?= uniqid() ?>"></script>
+    <link rel="stylesheet" type="text/css" href="css/common.css?<?= uniqid() ?>">
+    <link rel="stylesheet" type="text/css" href="css/conversation.css?<?= uniqid() ?>">
+    <title>Voice Recording</title>
+</head>
+
 <body>
-    <h1>It test!!!!!</h1>
+    <h1>Voice Recording</h1>
+    <article id="article_contlloer">
+        <button type="button" id="Conversation_Button" onclick="JS_Conversation.play()">
+            <span id="bt_taking">[OFF] Taking</span>
+        </button>
+    </article>
+    <article id="article_taking">
+        <p id="interim_text" class="recognition_word"></p>
+        <div id="taking_text"></div>
+    </article>
 </body>
 
 </html>
