@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"name": "Voice Recording",
+			"path": "."
+		}
+	],
+	"settings": {
+		"cSpell.words": [
+			"samplerate",
+			"VOSK",
+			"websockets",
+			"sounddevice"
+		]
+	}
+}
