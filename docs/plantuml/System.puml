@@ -1,0 +1,21 @@
+@startuml システム構成
+
+actor User
+rectangle Browser
+
+rectangle system as "Docker Container" {
+    rectangle Vosk
+    rectangle Julius
+    rectangle Whisper
+}
+
+cloud WebSpeechAPI
+
+
+User -right- Browser : https
+Browser -up- Vosk
+Browser -up- Julius
+Browser -up- Whisper
+Browser -up- WebSpeechAPI
+
+@enduml
