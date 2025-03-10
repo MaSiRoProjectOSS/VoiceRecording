@@ -9,6 +9,10 @@ if (!JS_Conversation) {
             JS_Conversation.recognition.continuous = true;
             JS_Conversation.recognition.interimResults = true;
             JS_Conversation.recognition.lang = 'ja-JP';
+            JS_Conversation.recognition.onend = function () {
+                JS_Conversation.add_interim("(自動停止)");
+                JS_Conversation.stop();
+            }
             JS_Conversation.recognition.onresult = function (event) {
                 var interim_transcript = '';
                 var final_transcript = '';
@@ -42,6 +46,7 @@ if (!JS_Conversation) {
             if (JS_Conversation.status_init) {
                 JS_Conversation.recognition.start();
                 JS_Conversation.status_play = true;
+                JS_Conversation.add_interim("(聞き取り中)");
                 document.getElementById('bt_taking').textContent = '[ON] Taking';
             }
         },
@@ -55,19 +60,27 @@ if (!JS_Conversation) {
         add_interim: function (word) {
             let date = new Date();
             document.getElementById('interim_text').textContent =
-                date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate() + " "
-                + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + " "
-                + "\"" + word + "\"";
+                JS_Conversation.get_date() + " " + "\"" + word + "\"";
         },
         add_word: function (word) {
-            let date = new Date();
             let p = document.createElement("p");
-            p.textContent = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate() + " "
-                + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + " "
-                + "\"" + word + "\"";
+            p.textContent =
+                JS_Conversation.get_date() + " " + "\"" + word + "\"";
             p.classList.add("recognition_word");
-            document.getElementById('interim_text').textContent = "";
+            JS_Conversation.add_interim("(聞き取り中)");
             document.getElementById('taking_text').prepend(p);
+        },
+        get_date: function () {
+            let date = new Date();
+            return JS_Conversation.zeroPadding(date.getFullYear(), 4) + "-"
+                + JS_Conversation.zeroPadding(date.getMonth(), 2)
+                + "-" + JS_Conversation.zeroPadding(date.getDate(), 2)
+                + " " + JS_Conversation.zeroPadding(date.getHours(), 2)
+                + ":" + JS_Conversation.zeroPadding(date.getMinutes(), 2)
+                + ":" + JS_Conversation.zeroPadding(date.getSeconds(), 2)
+        },
+        zeroPadding: function (NUM, LEN) {
+            return (Array(LEN).join('0') + NUM).slice(-LEN);
         }
     }
     JS_Conversation.init();

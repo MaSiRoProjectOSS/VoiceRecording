@@ -176,3 +176,4 @@ cython_debug/
 *.csr
 *.key
 *.crt
+vosk/model/*
