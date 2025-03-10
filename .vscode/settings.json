@@ -3,6 +3,7 @@
         "kaldi",
         "onerahmet",
         "sounddevice",
+        "usermod",
         "vosk",
         "webservice"
     ]
