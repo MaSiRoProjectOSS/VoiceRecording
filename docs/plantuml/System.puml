@@ -3,19 +3,26 @@
 actor User
 rectangle Browser
 
-rectangle system as "Docker Container" {
-    rectangle Vosk
+rectangle docker as "Docker Container" {
     rectangle Julius
     rectangle Whisper
+}
+rectangle pip as "Python Package" {
+    rectangle Vosk
 }
 
 cloud WebSpeechAPI
 
 
-User -right- Browser : https
+User -up- Browser : https
 Browser -up- Vosk
 Browser -up- Julius
 Browser -up- Whisper
 Browser -up- WebSpeechAPI
+
+rectangle client_vosk as "client_vosk.py"
+
+User -up- client_vosk : mic
+client_vosk -up- Vosk : WebSocket
 
 @enduml

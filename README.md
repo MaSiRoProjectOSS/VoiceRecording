@@ -5,11 +5,64 @@
 
 ## インストール方法
 
+### 事前準備
+
+Dockerを使用して構築しますので、Dockerがインストールされている必要があります。
+またユーザーをdockerグループをお願いします。
+
+```bash
+sudo usermod -aG docker $USER
+```
+
+### webkitSpeechRecognition
+
+Chromeブラウザの音声認識機能を使用するため、HTTPSでアクセスする必要があります。
+そのため、ローカルサーバーを構築します。
+
+```bash
+cd httpd
+bash setup.sh
+```
+
+構築後、ブラウザで`https://<ipアドレス>:18443`にアクセスしてください。
+環境を変えたい場合は、```httpd/src/httpd.config.ini```で変更出来ます。
+
+
 ## システム構成
 
 ブラウザを経由して、構築した音声認識システムにアクセスします。
 
-<!-- @import "docs/plantuml/System.puml" -->
+```plantuml@startuml システム構成
+
+actor User
+rectangle Browser
+
+rectangle docker as "Docker Container" {
+    rectangle Julius
+    rectangle Whisper
+    rectangle VoskServer
+}
+rectangle pip as "Python Package" {
+    rectangle Vosk
+}
+
+cloud WebSpeechAPI
+
+
+User -up- Browser : https
+Browser -up- Julius
+Browser -up- Whisper
+Browser -up- WebSpeechAPI
+
+rectangle client_vosk as "client_vosk.py"
+
+User -up- Vosk : mic
+User -up- client_vosk
+client_vosk -up- VoskServer : WebSocket
+
+@enduml
+
+```
 
 ### 一覧
 
